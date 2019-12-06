@@ -190,6 +190,7 @@ create_aceuil (void)
   fixed36 = gtk_fixed_new ();
   gtk_widget_show (fixed36);
   gtk_fixed_put (GTK_FIXED (fixed6), fixed36, 0, 0);
+  gtk_widget_set_size_request (fixed36, 0, 0);
 
   entry67 = gtk_entry_new ();
   gtk_widget_show (entry67);
@@ -661,6 +662,7 @@ create_client (void)
   fixed15 = gtk_fixed_new ();
   gtk_widget_show (fixed15);
   gtk_fixed_put (GTK_FIXED (fixed13), fixed15, 0, 8);
+  gtk_widget_set_size_request (fixed15, 0, 0);
 
   entry8 = gtk_entry_new ();
   gtk_widget_show (entry8);
@@ -2338,8 +2340,8 @@ create_admin (void)
   GtkWidget *fixed33;
   GtkWidget *scrolledwindow20;
   GtkWidget *treeview1i;
-  GtkWidget *button2i;
   GtkWidget *button1i;
+  GtkWidget *button2i;
   GtkWidget *label107;
   GtkWidget *fixed32;
   GtkWidget *scrolledwindow19;
@@ -2382,15 +2384,15 @@ create_admin (void)
   gtk_widget_show (treeview1i);
   gtk_container_add (GTK_CONTAINER (scrolledwindow20), treeview1i);
 
-  button2i = gtk_button_new_with_mnemonic (_("ajouter"));
-  gtk_widget_show (button2i);
-  gtk_fixed_put (GTK_FIXED (fixed33), button2i, 352, 424);
-  gtk_widget_set_size_request (button2i, 104, 32);
-
   button1i = gtk_button_new_with_mnemonic (_("afficher"));
   gtk_widget_show (button1i);
   gtk_fixed_put (GTK_FIXED (fixed33), button1i, 320, 16);
   gtk_widget_set_size_request (button1i, 152, 40);
+
+  button2i = gtk_button_new_with_mnemonic (_("ajouter"));
+  gtk_widget_show (button2i);
+  gtk_fixed_put (GTK_FIXED (fixed33), button2i, 352, 424);
+  gtk_widget_set_size_request (button2i, 104, 32);
 
   label107 = gtk_label_new (_("gestion des compts"));
   gtk_widget_show (label107);
@@ -2467,6 +2469,13 @@ create_admin (void)
   gtk_widget_show (label109);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook7), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook7), 2), label109);
 
+  g_signal_connect ((gpointer) button1i, "clicked",
+                    G_CALLBACK (on_button1i_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) button2i, "clicked",
+                    G_CALLBACK (on_button2i_clicked),
+                    NULL);
+
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (admin, admin, "admin");
   GLADE_HOOKUP_OBJECT (admin, fixed30, "fixed30");
@@ -2474,8 +2483,8 @@ create_admin (void)
   GLADE_HOOKUP_OBJECT (admin, fixed33, "fixed33");
   GLADE_HOOKUP_OBJECT (admin, scrolledwindow20, "scrolledwindow20");
   GLADE_HOOKUP_OBJECT (admin, treeview1i, "treeview1i");
-  GLADE_HOOKUP_OBJECT (admin, button2i, "button2i");
   GLADE_HOOKUP_OBJECT (admin, button1i, "button1i");
+  GLADE_HOOKUP_OBJECT (admin, button2i, "button2i");
   GLADE_HOOKUP_OBJECT (admin, label107, "label107");
   GLADE_HOOKUP_OBJECT (admin, fixed32, "fixed32");
   GLADE_HOOKUP_OBJECT (admin, scrolledwindow19, "scrolledwindow19");
@@ -2511,8 +2520,6 @@ create_ajoutcompt (void)
   GtkWidget *entry8i;
   GtkObject *spinbutton1i_adj;
   GtkWidget *spinbutton1i;
-  GtkWidget *combobox1i;
-  GtkWidget *button3i;
   GtkWidget *label112;
   GtkWidget *label113;
   GtkWidget *label114;
@@ -2523,6 +2530,8 @@ create_ajoutcompt (void)
   GtkWidget *label119;
   GtkWidget *label120;
   GtkWidget *label121;
+  GtkWidget *combobox1i;
+  GtkWidget *button3i;
 
   ajoutcompt = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (ajoutcompt), _("ajoutcompt"));
@@ -2585,18 +2594,6 @@ create_ajoutcompt (void)
   gtk_fixed_put (GTK_FIXED (fixed34), spinbutton1i, 304, 392);
   gtk_widget_set_size_request (spinbutton1i, 60, 27);
 
-  combobox1i = gtk_combo_box_new_text ();
-  gtk_widget_show (combobox1i);
-  gtk_fixed_put (GTK_FIXED (fixed34), combobox1i, 303, 176);
-  gtk_widget_set_size_request (combobox1i, 158, 31);
-  gtk_combo_box_append_text (GTK_COMBO_BOX (combobox1i), _("client"));
-  gtk_combo_box_append_text (GTK_COMBO_BOX (combobox1i), _("agent"));
-
-  button3i = gtk_button_new_with_mnemonic (_("valider"));
-  gtk_widget_show (button3i);
-  gtk_fixed_put (GTK_FIXED (fixed34), button3i, 216, 584);
-  gtk_widget_set_size_request (button3i, 144, 40);
-
   label112 = gtk_label_new (_("login"));
   gtk_widget_show (label112);
   gtk_fixed_put (GTK_FIXED (fixed34), label112, 144, 64);
@@ -2647,6 +2644,22 @@ create_ajoutcompt (void)
   gtk_fixed_put (GTK_FIXED (fixed34), label121, 152, 536);
   gtk_widget_set_size_request (label121, 57, 17);
 
+  combobox1i = gtk_combo_box_new_text ();
+  gtk_widget_show (combobox1i);
+  gtk_fixed_put (GTK_FIXED (fixed34), combobox1i, 303, 176);
+  gtk_widget_set_size_request (combobox1i, 158, 31);
+  gtk_combo_box_append_text (GTK_COMBO_BOX (combobox1i), _("client"));
+  gtk_combo_box_append_text (GTK_COMBO_BOX (combobox1i), _("agent"));
+
+  button3i = gtk_button_new_with_mnemonic (_("valider"));
+  gtk_widget_show (button3i);
+  gtk_fixed_put (GTK_FIXED (fixed34), button3i, 216, 584);
+  gtk_widget_set_size_request (button3i, 144, 40);
+
+  g_signal_connect ((gpointer) button3i, "clicked",
+                    G_CALLBACK (on_button3i_clicked),
+                    NULL);
+
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (ajoutcompt, ajoutcompt, "ajoutcompt");
   GLADE_HOOKUP_OBJECT (ajoutcompt, fixed34, "fixed34");
@@ -2659,8 +2672,6 @@ create_ajoutcompt (void)
   GLADE_HOOKUP_OBJECT (ajoutcompt, entry7i, "entry7i");
   GLADE_HOOKUP_OBJECT (ajoutcompt, entry8i, "entry8i");
   GLADE_HOOKUP_OBJECT (ajoutcompt, spinbutton1i, "spinbutton1i");
-  GLADE_HOOKUP_OBJECT (ajoutcompt, combobox1i, "combobox1i");
-  GLADE_HOOKUP_OBJECT (ajoutcompt, button3i, "button3i");
   GLADE_HOOKUP_OBJECT (ajoutcompt, label112, "label112");
   GLADE_HOOKUP_OBJECT (ajoutcompt, label113, "label113");
   GLADE_HOOKUP_OBJECT (ajoutcompt, label114, "label114");
@@ -2671,6 +2682,8 @@ create_ajoutcompt (void)
   GLADE_HOOKUP_OBJECT (ajoutcompt, label119, "label119");
   GLADE_HOOKUP_OBJECT (ajoutcompt, label120, "label120");
   GLADE_HOOKUP_OBJECT (ajoutcompt, label121, "label121");
+  GLADE_HOOKUP_OBJECT (ajoutcompt, combobox1i, "combobox1i");
+  GLADE_HOOKUP_OBJECT (ajoutcompt, button3i, "button3i");
 
   return ajoutcompt;
 }

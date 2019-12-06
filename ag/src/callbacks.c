@@ -9,6 +9,7 @@
 #include "support.h"
 #include "verif.h"
 #include "nour.h"
+#include "admin.h"
 #include "string.h"
 
 
@@ -49,6 +50,10 @@ on_button1_clicked                     (GtkWidget      *objet_graphique,
   	        gtk_widget_show (client);
 		aceuil=lookup_widget(objet_graphique,"aceuil");
 		gtk_widget_destroy(aceuil);
+	      FILE* f =fopen("util.txt","w");
+               fprintf(f,"%s\n",u.log);
+              fclose(f);
+
 	}
 
 	if (r==3)
@@ -750,5 +755,89 @@ GtkWidget *modifvol;
 
      modifvol=lookup_widget(button,"modifvol");
      gtk_widget_hide(modifvol);
+}
+
+
+void
+on_button1i_clicked                    (GtkButton       *button,
+                                        gpointer         user_data)
+{
+GtkWidget *admin;
+GtkWidget *notebook7;
+GtkWidget *treeview1i;
+admin=lookup_widget(button,"admin");
+ notebook7=lookup_widget(admin,"notebook7");
+ treeview1i=lookup_widget(notebook7,"treeview1i");
+afficheri(treeview1i);
+}
+
+
+void
+on_button2i_clicked                    (GtkWidget       *objet_graphique,
+                                        gpointer         user_data)
+{
+GtkWidget *ajoutcompt,*admin,*notebook7;
+admin=lookup_widget(objet_graphique,"admin");
+notebook7=lookup_widget(admin,"notebook7");
+ajoutcompt=create_ajoutcompt();
+gtk_widget_show(ajoutcompt);
+}
+
+
+void
+on_button3i_clicked                    (GtkWidget       *objet_graphique,
+                                        gpointer         user_data)
+{
+compt c;
+
+GtkWidget *input1;
+GtkWidget *input2;
+GtkWidget *input3;
+GtkWidget *input4;
+GtkWidget *input5;
+GtkWidget *input6;
+GtkWidget *input7;
+GtkWidget *input8;
+GtkWidget *ajoutcompt,*combobox1i;
+GtkWidget *na;
+input1= lookup_widget(objet_graphique,"entry1i");
+input2= lookup_widget(objet_graphique,"entry2i");
+input3= lookup_widget(objet_graphique,"entry3i");
+input4= lookup_widget(objet_graphique,"entry4i");
+input5= lookup_widget(objet_graphique,"entry5i");
+input6= lookup_widget(objet_graphique,"entry6i");
+input7= lookup_widget(objet_graphique,"entry7i");
+input8= lookup_widget(objet_graphique,"entry8i");
+ajoutcompt= lookup_widget(objet_graphique,"ajoutcompt");
+//admin=lookup_widget(objet_graphique,"admin");
+
+
+na=lookup_widget(objet_graphique,"spinbutton1i");
+c.age=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(na));
+combobox1i=lookup_widget(objet_graphique, "combobox1i");
+/*if(strcmp("adhérent",gtk_combo_box_get_active_text(GTK_COMBO_BOX(combobox2n)))==0)
+{c=6;}
+else if(strcmp("médecien",gtk_combo_box_get_active_text(GTK_COMBO_BOX(combobox2n)))==0)
+{c=2;}*/
+
+
+
+
+strcpy(c.login,gtk_entry_get_text(GTK_ENTRY(input1)));
+strcpy(c.password,gtk_entry_get_text(GTK_ENTRY(input2)));
+strcpy(c.nom,gtk_entry_get_text(GTK_ENTRY(input3)));
+strcpy(c.prenom,gtk_entry_get_text(GTK_ENTRY(input4)));
+strcpy(c.cin,gtk_entry_get_text(GTK_ENTRY(input5)));
+strcpy(c.tel,gtk_entry_get_text(GTK_ENTRY(input6)));
+strcpy(c.ad,gtk_entry_get_text(GTK_ENTRY(input7)));
+strcpy(c.mail,gtk_entry_get_text(GTK_ENTRY(input8)));
+if(strcmp("client",gtk_combo_box_get_active_text(GTK_COMBO_BOX(combobox1i)))==0)
+{c.role=2;}
+else if(strcmp("agent",gtk_combo_box_get_active_text(GTK_COMBO_BOX(combobox1i)))==0)
+{c.role=3;}
+
+ajouteri1(c);
+ajouteri2(c);
+gtk_widget_hide(ajoutcompt);
 }
 

@@ -136,3 +136,15 @@ on_buttonkh2_clicked                   (GtkWidget       *objet_graphique,
 void
 on_buttonkh1_clicked                   (GtkButton       *button,
                                         gpointer         user_data);
+
+void
+on_button1i_clicked                    (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_button2i_clicked                    (GtkWidget       *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button3i_clicked                    (GtkWidget       *objet_graphique,
+                                        gpointer         user_data);

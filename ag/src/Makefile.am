@@ -13,7 +13,8 @@ ag_SOURCES = \
 	interface.c interface.h \
 	callbacks.c callbacks.h \
 	verif.c verif.h \
-	nour.c nour.h 
+	nour.c nour.h \
+	admin.c admin.h
 	
 
 ag_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)

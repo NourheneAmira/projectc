@@ -100,7 +100,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ag_OBJECTS = main.$(OBJEXT) support.$(OBJEXT) interface.$(OBJEXT) \
-	callbacks.$(OBJEXT) verif.$(OBJEXT) nour.$(OBJEXT)
+	callbacks.$(OBJEXT) verif.$(OBJEXT) nour.$(OBJEXT) \
+	admin.$(OBJEXT)
 ag_OBJECTS = $(am_ag_OBJECTS)
 am__DEPENDENCIES_1 =
 ag_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -282,7 +283,8 @@ ag_SOURCES = \
 	interface.c interface.h \
 	callbacks.c callbacks.h \
 	verif.c verif.h \
-	nour.c nour.h 
+	nour.c nour.h \
+	admin.c admin.h
 
 ag_LDADD = -lgtk-x11-2.0 -lgdk-x11-2.0 -lpangocairo-1.0 -latk-1.0 -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lfontconfig -lfreetype $(INTLLIBS)
 all: all-am
@@ -371,6 +373,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/admin.Po
 include ./$(DEPDIR)/callbacks.Po
 include ./$(DEPDIR)/interface.Po
 include ./$(DEPDIR)/main.Po
