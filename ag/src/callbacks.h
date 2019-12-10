@@ -6,7 +6,7 @@ on_button1_clicked                     (GtkWidget       *objet_graphique,
                                         gpointer         user_data);
 
 void
-on_button50i_clicked                   (GtkButton       *button,
+on_button50i_clicked                   (GtkWidget      *objet_graphique,
                                         gpointer         user_data);
 
 void
@@ -32,11 +32,11 @@ on_treeview1rec_row_activated          (GtkTreeView     *treeview,
                                         gpointer         user_data);
 
 void
-on_actualiser_clicked                  (GtkButton       *button,
+on_actualiser_clicked                  (GtkWidget      *objet,
                                         gpointer         user_data);
 
 void
-on_button1ajoutrec_clicked             (GtkButton       *button,
+on_button1ajoutrec_clicked             (GtkWidget      *objet_graphique,
                                         gpointer         user_data);
 
 void
@@ -147,4 +147,40 @@ on_button2i_clicked                    (GtkWidget       *objet_graphique,
 
 void
 on_button3i_clicked                    (GtkWidget       *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_actualiser2h_clicked                (GtkWidget      *objet,
+                                        gpointer         user_data);
+
+void
+on_envoyer_clicked                     (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_affich_clicked                      (GtkWidget       *objet,
+                                        gpointer         user_data);
+
+void
+on_affichay_clicked                    (GtkWidget       *objet,
+                                        gpointer         user_data);
+
+void
+on_envoyeray_clicked                   (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_modif_clicked                       (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_modifier_clicked                    (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_supp_clicked                        (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_valider_clicked                     (GtkWidget                *objet_graphique,
                                         gpointer         user_data);

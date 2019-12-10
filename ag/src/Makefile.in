@@ -101,7 +101,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ag_OBJECTS = main.$(OBJEXT) support.$(OBJEXT) interface.$(OBJEXT) \
 	callbacks.$(OBJEXT) verif.$(OBJEXT) nour.$(OBJEXT) \
-	admin.$(OBJEXT)
+	admin.$(OBJEXT) recla.$(OBJEXT) jjjj.$(OBJEXT)
 ag_OBJECTS = $(am_ag_OBJECTS)
 am__DEPENDENCIES_1 =
 ag_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -284,7 +284,9 @@ ag_SOURCES = \
 	callbacks.c callbacks.h \
 	verif.c verif.h \
 	nour.c nour.h \
-	admin.c admin.h
+	admin.c admin.h \
+	recla.c recla.h \
+        jjjj.c hhhh.h
 
 ag_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 all: all-am
@@ -376,8 +378,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/admin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/callbacks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interface.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jjjj.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nour.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/recla.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/support.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/verif.Po@am__quote@
 

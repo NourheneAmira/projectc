@@ -13,3 +13,5 @@ GtkWidget* create_ajouvol (void);
 GtkWidget* create_modifvol (void);
 GtkWidget* create_admin (void);
 GtkWidget* create_ajoutcompt (void);
+GtkWidget* create_window3 (void);
+GtkWidget* create_window2 (void);

@@ -26,6 +26,7 @@ main (int argc, char *argv[])
   GtkWidget *modifvol;
   GtkWidget *admin;
   GtkWidget *ajoutcompt;
+  //GtkWidget *window3;
 
 #ifdef ENABLE_NLS
   bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);

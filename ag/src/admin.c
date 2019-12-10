@@ -16,6 +16,24 @@ fprintf(f,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,c.role,c.nom,c.pr
 fclose(f);}
 
 }
+void ajouteri11(compt c)
+{
+FILE*f;
+
+f=fopen("compt.txt","a+");
+if (f!=NULL){
+fprintf(f,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,2,c.nom,c.prenom,c.cin,c.age,c.tel,c.ad,c.mail);
+fclose(f);}
+
+}
+void ajouteri12(compt c)
+{
+FILE*f;
+f=fopen("user.txt","a+");
+if (f!=NULL){
+fprintf(f,"%s %s %d\n",c.login,c.password,2);
+fclose(f);}
+}
 void ajouteri2(compt c)
 {
 FILE*f;
@@ -168,3 +186,22 @@ rename("compt.tmp","compt.txt");
 
 
 ////////////////////////////////supprimer//////////////////////////////////*/
+////////////// //////////////////////////verifier////////////////////
+ int verifidi(char id[])
+{
+	for(int i=0;i<strlen(id);i++)
+	{
+		if ( (strlen(id)==0) || (id[i] < '0') || (id[i] > '9') || (strlen(id)!=8) )
+		{return 0;
+		}
+		else
+		 return 1;
+	}
+}
+int verifentryi(char a[])
+{
+ if (strlen(a)==0)
+{return 0;}
+else return 1;
+
+}

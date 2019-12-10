@@ -14,7 +14,9 @@ ag_SOURCES = \
 	callbacks.c callbacks.h \
 	verif.c verif.h \
 	nour.c nour.h \
-	admin.c admin.h
+	admin.c admin.h \
+	recla.c recla.h \
+        jjjj.c hhhh.h
 	
 
 ag_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)

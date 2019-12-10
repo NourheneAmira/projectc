@@ -6,7 +6,7 @@ int j;
 int m;
 int a;
 char prog[50];
-char prix[50];
+int prix;
 int p;}excursion;
 typedef struct {
 char id[30];
@@ -14,7 +14,7 @@ char lieu[30];
 char nom[30];
 int e;
 char chambre[30];
-char prix[30]; 
+int prixh ;
 int p;}hotel;
 typedef struct {
 char id[30];
@@ -25,7 +25,7 @@ int mv;
 int av;
 char heure[30];
 char type[30];
-char prixv[30];
+int prixv;
  int pl;}vol;
 
 

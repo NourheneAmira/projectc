@@ -9,7 +9,7 @@ void ajouter1(excursion p)
 FILE*f;
 f=fopen("exc.txt","a+");
 if (f!=NULL)
-{fprintf(f,"%s %s %d %d %d %s %s %d\n",p.id,p.des,p.j,p.m,p.a,p.prog,p.prix,p.p);
+{fprintf(f,"%s %s %d %d %d %s %d %d\n",p.id,p.des,p.j,p.m,p.a,p.prog,p.prix,p.p);
 fclose(f);
 }
 }
@@ -92,7 +92,7 @@ excursion p;
 	}
 
 
- store=gtk_list_store_new (COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT,G_TYPE_INT,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT);
+ store=gtk_list_store_new (COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT,G_TYPE_INT,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT);
 
  f = fopen("exc.txt", "r");
 
@@ -103,7 +103,7 @@ excursion p;
  else 
 	{
  	 f = fopen("exc.txt", "a+");
-	 while(fscanf(f,"%s %s %d %d %d %s %s %d\n",p.id,p.des,&p.j,&p.m,&p.a,p.prog,p.prix,&p.p)!=EOF)
+	 while(fscanf(f,"%s %s %d %d %d %s %d %d\n",p.id,p.des,&p.j,&p.m,&p.a,p.prog,&p.prix,&p.p)!=EOF)
 		{
 		 gtk_list_store_append (store, &iter);
 		 gtk_list_store_set (store,&iter,ID,p.id,DES,p.des,J,p.j,M,p.m,A,p.a,PROG,p.prog,PRIX,p.prix,P,p.p,-1); 
@@ -116,14 +116,14 @@ excursion p;
 ///////////////modifier
 void modifier1(excursion p )
 { 	
-	char idn[20],progn[20],desn[20],prixn[20];
-int jn,mn,an,pn;
+	char idn[20],progn[20],desn[20];
+int jn,mn,an,pn,prixn;
 	FILE *f , *tmp;
 	f=fopen("exc.txt","r");
 	tmp=fopen("exc.tmp","a+");
-	while(fscanf(f,"%s %s %d %d %d %s %s %d\n",idn,desn,&jn,&mn,&an,progn,prixn,&pn)!=EOF){
-		if(!strcmp(p.id,idn) ){fprintf(tmp,"%s %s %d %d %d %s %s %d\n",p.id,p.des,p.j,p.m,p.a,p.prog,p.prix,p.p);}
-else fprintf(tmp,"%s %s %d %d %d %s %s %d\n",idn,desn,jn,mn,an,progn,prixn,pn);
+	while(fscanf(f,"%s %s %d %d %d %s %d %d\n",idn,desn,&jn,&mn,&an,progn,&prixn,&pn)!=EOF){
+		if(!strcmp(p.id,idn) ){fprintf(tmp,"%s %s %d %d %d %s %d %d\n",p.id,p.des,p.j,p.m,p.a,p.prog,p.prix,p.p);}
+else fprintf(tmp,"%s %s %d %d %d %s %d %d\n",idn,desn,jn,mn,an,progn,prixn,pn);
 }
 fclose(f);
 fclose(tmp);
@@ -132,14 +132,14 @@ rename("exc.tmp","exc.txt");
 ///////supprimer
 void supprimer1(excursion p)
 { 	
-	char idn[20],progn[20],desn[20],prixn[20];
-int jn,mn,an,pn;
+	char idn[20],progn[20],desn[20];
+int jn,mn,an,pn,prixn;
 	FILE *f , *tmp;
 	f=fopen("exc.txt","r");
 	tmp=fopen("exc.tmp","a+");
-	while(fscanf(f,"%s %s %d %d %d %s %s %d\n",idn,desn,&jn,&mn,&an,progn,prixn,&pn)!=EOF){
+	while(fscanf(f,"%s %s %d %d %d %s %d %d\n",idn,desn,&jn,&mn,&an,progn,&prixn,&pn)!=EOF){
 		if(!strcmp(p.id,idn) ){continue;}
-else fprintf(tmp,"%s %s %d %d %d %s %s %d\n",idn,desn,jn,mn,an,progn,prixn,pn);
+else fprintf(tmp,"%s %s %d %d %d %s %d %d\n",idn,desn,jn,mn,an,progn,prixn,pn);
 }
 fclose(f);
 fclose(tmp);
@@ -166,12 +166,7 @@ void afficher2(GtkWidget *liste)
  GtkListStore *store;
 
 
- char id[30];
- char lieu[30];
- char nom[50];
- char prix[50];
- char chambre[50];
- int p,e;
+hotel h;
 
 
 
@@ -206,7 +201,7 @@ void afficher2(GtkWidget *liste)
 	 gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
 
 	 renderer = gtk_cell_renderer_text_new ();
-	 column = gtk_tree_view_column_new_with_attributes("prix", renderer, "text",PRIX2, NULL);
+	 column = gtk_tree_view_column_new_with_attributes("prixh", renderer, "text",PRIX2, NULL);
 	 gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
 
  	 renderer = gtk_cell_renderer_text_new ();
@@ -216,7 +211,7 @@ void afficher2(GtkWidget *liste)
 	}
 
 
- store=gtk_list_store_new (COLUMN,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT);
+ store=gtk_list_store_new (COLUMN,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT);
 
  f = fopen("hot.txt", "r");
 
@@ -227,10 +222,10 @@ void afficher2(GtkWidget *liste)
  else 
 	{
  	 f = fopen("hot.txt", "a+");
-	 while(fscanf(f,"%s %s %s %d %s %s %d\n",id,lieu,nom,&e,chambre,prix,&p)!=EOF)
+	 while(fscanf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,&h.e,h.chambre,&h.prixh,&h.p)!=EOF)
 		{
 		 gtk_list_store_append (store, &iter);
-		 gtk_list_store_set (store,&iter,ID2,id,LIEU,lieu,NOM,nom,E,e,CHAMBRE,chambre,PRIX2,prix,PLACE,p,-1); 
+		 gtk_list_store_set (store,&iter,ID2,h.id,LIEU,h.lieu,NOM,h.nom,E,h.e,CHAMBRE,h.chambre,PRIX2,h.prixh,PLACE,h.p,-1); 
 		}
 	 fclose(f);
 	 gtk_tree_view_set_model(GTK_TREE_VIEW(liste), GTK_TREE_MODEL(store));
@@ -244,20 +239,20 @@ FILE*f;
 
 f=fopen("hot.txt","a+");
 if (f!=NULL)
-{fprintf(f,"%s %s %s %d %s %s %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prix,h.p);
+{fprintf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prixh,h.p);
 fclose(f);
 }
 }
 void modifier2(hotel h)
 { 	
-	char idn[20],chambren[20],nomn[20],lieun[20],progn[20],prixn[20];
-int en,pn;
+	char idn[20],chambren[20],nomn[20],lieun[20],progn[20];
+int en,pn,prixhn;
 	FILE *f , *tmp;
 	f=fopen("hot.txt","r");
 	tmp=fopen("hot.tmp","a+");
-	while(fscanf(f,"%s %s %s %d %s %s %d\n",idn,lieun,nomn,&en,chambren,prixn,&pn)!=EOF){
-		if(!strcmp(h.id,idn) ){fprintf(tmp,"%s %s %s %d %s %s %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prix,h.p);}
-else fprintf(tmp,"%s %s %s %d %s %s %d\n",idn,lieun,nomn,en,progn,prixn,pn);
+	while(fscanf(f,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,&en,chambren,&prixhn,&pn)!=EOF){
+		if(!strcmp(h.id,idn) ){fprintf(tmp,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prixh,h.p);}
+else fprintf(tmp,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,en,progn,prixhn,pn);
 }
 fclose(f);
 fclose(tmp);
@@ -265,14 +260,14 @@ rename("hot.tmp","hot.txt");
 }
 void supprimer2(hotel h)
 {
-	char idn[20],lieun[20],nomn[20],prixn[20],chambren[20];
-int en,pn;
+	char idn[20],lieun[20],nomn[20],chambren[20];
+int en,pn,prixhn;
 	FILE *f , *tmp;
 	f=fopen("hot.txt","r");
 	tmp=fopen("hot.tmp","a+");
-	while(fscanf(f,"%s %s %s %d %s %s %d\n",idn,lieun,nomn,&en,chambren,prixn,&pn)!=EOF){
+	while(fscanf(f,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,&en,chambren,prixhn,&pn)!=EOF){
 		if(!strcmp(h.id,idn) ){continue;}
-else fprintf(tmp,"%s %s %s %d %s %s %d\n",idn,lieun,nomn,en,chambren,prixn,pn);
+else fprintf(tmp,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,en,chambren,prixhn,pn);
 }
 fclose(f);
 fclose(tmp);
@@ -285,7 +280,7 @@ void ajouter3(vol v)
 FILE*f;
 f=fopen("vol.txt","a+");
 if (f!=NULL)
-{fprintf(f,"%s %s %s %d %d %d %s %s %s %d\n",v.id,v.dep,v.arr,v.jv,v.mv,v.av,v.heure,v.type,v.prixv,v.pl);
+{fprintf(f,"%s %s %s %d %d %d %s %s %d %d\n",v.id,v.dep,v.arr,v.jv,v.mv,v.av,v.heure,v.type,v.prixv,v.pl);
 fclose(f);
 }
 }
@@ -317,10 +312,10 @@ void afficher3(GtkWidget *liste)
  char id[30];
  char dep[30];
  char arr[50];
- char prix[50];
+ 
  char  type[50];
  char  heure[50];
- int pv,jv,mv,av;
+ int pv,jv,mv,av,prix;
 
 
 
@@ -377,7 +372,7 @@ void afficher3(GtkWidget *liste)
 	}
 
 
- store=gtk_list_store_new(COLUM,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT,G_TYPE_INT,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT);
+ store=gtk_list_store_new(COLUM,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT,G_TYPE_INT,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_INT,G_TYPE_INT);
 
  f = fopen("vol.txt", "r");
 
@@ -388,7 +383,7 @@ void afficher3(GtkWidget *liste)
  else 
 	{
  	 f = fopen("vol.txt", "a+");
-	 while(fscanf(f,"%s %s %s %d %d %d %s %s %s %d\n",id,dep,arr,&jv,&mv,&av,heure,type,prix,&pv)!=EOF)
+	 while(fscanf(f,"%s %s %s %d %d %d %s %s %d %d\n",id,dep,arr,&jv,&mv,&av,heure,type,&prix,&pv)!=EOF)
 		{
 		 gtk_list_store_append (store, &iter);
 		 gtk_list_store_set (store,&iter,ID3,id,DEP,dep,ARR,arr,JV,jv,MV,mv,AV,av,HEURE,heure,TYPEV,type,PRIX3,prix,PLACEV,pv-1); 
@@ -401,30 +396,48 @@ void afficher3(GtkWidget *liste)
 /////////////////////modifier supprimer ///////////
 void modifier3(vol v)
 { 	
-	char idn[20],depn[20],arrn[20],heuren[20],typen[20],prixn[20];
-int jn,mn,an,pn;
+	char idn[20],depn[20],arrn[20],heuren[20],typen[20];
+int jn,mn,an,pn,prixn;
 	FILE *f , *tmp;
 	f=fopen("vol.txt","r");
 	tmp=fopen("vol.tmp","a+");
-	while(fscanf(f,"%s %s %s %d %d %d %s %s %s %d\n",idn,depn,arrn,&jn,&mn,&an,heuren,typen,prixn,&pn)!=EOF){
-		if(!strcmp(v.id,idn) ){fprintf(tmp,"%s %s %s %d %d %d %s %s %s %d\n",v.id,v.dep,v.arr,v.jv,v.mv,v.av,v.heure,v.type,v.prixv,v.pl);}
-else fprintf(tmp,"%s %s %s %d %d %d %s %s %s %d\n",idn,depn,arrn,jn,mn,an,heuren,typen,prixn,pn);
+	while(fscanf(f,"%s %s %s %d %d %d %s %s %d %d\n",idn,depn,arrn,&jn,&mn,&an,heuren,typen,&prixn,&pn)!=EOF){
+		if(!strcmp(v.id,idn) ){fprintf(tmp,"%s %s %s %d %d %d %s %s %d %d\n",v.id,v.dep,v.arr,v.jv,v.mv,v.av,v.heure,v.type,v.prixv,v.pl);}
+else fprintf(tmp,"%s %s %s %d %d %d %s %s %d %d\n",idn,depn,arrn,jn,mn,an,heuren,typen,prixn,pn);
 }
 fclose(f);
 fclose(tmp);
 rename("vol.tmp","vol.txt");
 }
 void supprimer3(vol v)
-{char idn[20],depn[20],arrn[20],heuren[20],typen[20],prixn[20];
-int jn,mn,an,pn;
+{char idn[20],depn[20],arrn[20],heuren[20],typen[20];
+int jn,mn,an,pn,prixn;
 	FILE *f , *tmp;
 	f=fopen("vol.txt","r");
 	tmp=fopen("vol.tmp","a+");
-	while(fscanf(f,"%s %s %s %d %d %d %s %s %s %d\n",idn,depn,arrn,&jn,&mn,&an,heuren,typen,prixn,&pn)!=EOF){
+	while(fscanf(f,"%s %s %s %d %d %d %s %s %d %d\n",idn,depn,arrn,&jn,&mn,&an,heuren,typen,&prixn,&pn)!=EOF){
 		if(!strcmp(v.id,idn) ){continue;}
-else fprintf(tmp,"%s %s %s %d %d %d %s %s %s %d\n",idn,depn,arrn,jn,mn,an,heuren,typen,prixn,pn);
+else fprintf(tmp,"%s %s %s %d %d %d %s %s %d %d\n",idn,depn,arrn,jn,mn,an,heuren,typen,prixn,pn);
 }
 fclose(f);
 fclose(tmp);
 rename("vol.tmp","vol.txt");
+}//////////////////////////verifier////////////////////
+ int verifid(char id[])
+{
+	for(int i=0;i<strlen(id);i++)
+	{
+		if ( (strlen(id)==0) || (id[i] < '0') || (id[i] > '9') || (strlen(id)!=8) )
+		{return 0;
+		}
+		else
+		 return 1;
+	}
+}
+int verifentry(char a[])
+{
+ if (strlen(a)==0)
+{return 0;}
+else return 1;
+
 }
