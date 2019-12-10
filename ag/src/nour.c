@@ -261,11 +261,11 @@ rename("hot.tmp","hot.txt");
 void supprimer2(hotel h)
 {
 	char idn[20],lieun[20],nomn[20],chambren[20];
-int en,pn,prixhn;
+        int en,pn,prixhn;
 	FILE *f , *tmp;
 	f=fopen("hot.txt","r");
 	tmp=fopen("hot.tmp","a+");
-	while(fscanf(f,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,&en,chambren,prixhn,&pn)!=EOF){
+	while(fscanf(f,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,&en,chambren,&prixhn,&pn)!=EOF){
 		if(!strcmp(h.id,idn) ){continue;}
 else fprintf(tmp,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,en,chambren,prixhn,pn);
 }
@@ -273,6 +273,7 @@ fclose(f);
 fclose(tmp);
 rename("hot.tmp","hot.txt");
 }
+
 /////////////////gestion ****************vol///////////
 void ajouter3(vol v)
 {
