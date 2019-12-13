@@ -16,7 +16,9 @@ ag_SOURCES = \
 	nour.c nour.h \
 	admin.c admin.h \
 	recla.c recla.h \
-        jjjj.c hhhh.h
+        jjjj.c hhhh.h  \
+	rese.c  \
+	fact.c fact.h
 	
 
 ag_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)

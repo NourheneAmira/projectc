@@ -187,6 +187,21 @@ rename("compt.tmp","compt.txt");
 
 ////////////////////////////////supprimer//////////////////////////////////*/
 ////////////// //////////////////////////verifier////////////////////
+int verifidc (compt c,char log[])
+{
+FILE *f ;
+
+	f=fopen("compt.txt","r");
+   
+while(fscanf(f,"%s %s %d %s %s %s %s %s %s %s\n",c.login,c.password,&c.role,c.nom,c.prenom,c.cin,&c.age,c.tel,c.ad,c.mail)!=EOF){
+if(strcmp(log,c.login)==0)
+{fclose(f);
+return 0; }
+ }
+fclose(f);
+return 1;
+}
+
  int verifidi(char id[])
 {
 	for(int i=0;i<strlen(id);i++)
@@ -202,6 +217,67 @@ int verifentryi(char a[])
 {
  if (strlen(a)==0)
 {return 0;}
-else return 1;
+else return 1;}///////////////////supprimer ///////////////////
 
+
+void supprimerlog(char LOG[],compt c)
+{
+ 
+  FILE *f;
+  FILE *compt_tmp;
+
+ 
+
+  f=fopen("compt.txt","a+");
+	compt_tmp=fopen("compt_tmp.txt","a+");
+  while(fscanf(f,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,&c.role,c.nom,c.prenom,c.cin,&c.age,c.tel,c.ad,c.mail)!=EOF)
+        {
+          if (strcmp(c.login,LOG)!=0)
+          {
+            fprintf(compt_tmp,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,c.role,c.nom,c.prenom,c.cin,c.age,c.tel,c.ad,c.mail);
+          }
+        }
+        fclose(f);
+      	fclose(compt_tmp);
+
+      	remove("compt.txt");
+      	rename("compt_tmp.txt","compt.txt");
+
+}
+///////////////********************
+void modifierihsen(compt c,char cin1 [30],char ad[30],char tel[20],char mail[20])
+{
+ /*char nom[300];
+char prenom[300];
+char cin[300];
+char date[300];
+char message[300];*/
+ 
+
+  FILE *f;
+  FILE *f_tmp;
+
+ 
+
+  f=fopen("compt.txt","a+");
+f_tmp=fopen("compt_tmp.txt","a+");
+  if (f!=NULL)
+  {
+    while(fscanf(f,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,&c.role,c.nom,c.prenom,c.cin,&c.age,c.tel,c.ad,c.mail)!=EOF)
+          {
+                if (strcmp(c.login,cin1)!=0)
+                  {
+                   fprintf(f_tmp,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,c.role,c.nom,c.prenom,c.cin,c.age,c.tel,c.ad,c.mail);
+                   
+                   }
+               else
+                 {strcpy(c.tel,tel);strcpy(c.ad,ad);strcpy(c.mail,mail);
+
+                   fprintf(f_tmp,"%s %s %d %s %s %s %d %s %s %s\n",c.login,c.password,c.role,c.nom,c.prenom,c.cin,c.age,c.tel,c.ad,c.mail);
+                 }
+          }
+     }
+          fclose(f);
+          fclose(f_tmp);
+          rename("compt_tmp.txt","compt.txt");
 }

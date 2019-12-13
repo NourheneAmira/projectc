@@ -3,6 +3,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <string.h>
 
 #include "callbacks.h"
 #include "interface.h"
@@ -13,8 +14,9 @@
 #include "string.h"
 #include "recla.h"
 #include "hhhh.h"
-
-
+#include "rese.h"
+#include "fact.h"
+#include <time.h>
 void
 on_button1_clicked                     (GtkWidget      *objet_graphique,
                                         gpointer         user_data)
@@ -79,7 +81,7 @@ on_button50i_clicked                   (GtkWidget      *objet_graphique,
                                         gpointer         user_data)
 {
 compt c;
-
+FILE* f;
 GtkWidget *input1;
 GtkWidget *input2;
 GtkWidget *input3;
@@ -114,7 +116,8 @@ strcpy(c.cin,gtk_entry_get_text(GTK_ENTRY(input5)));
 strcpy(c.tel,gtk_entry_get_text(GTK_ENTRY(input6)));
 strcpy(c.ad,gtk_entry_get_text(GTK_ENTRY(input7)));
 strcpy(c.mail,gtk_entry_get_text(GTK_ENTRY(input8)));
-if(verifidi(c.login)==0)
+compt g;
+if(verifidc(g,c.login)==0)
 { 
 
 gtk_label_set_text(GTK_LABEL(output1402)," X ");}
@@ -126,7 +129,7 @@ if(verifentryi(c.password)==0)
 else
 {gtk_label_set_text(GTK_LABEL(output1412)," √ ");}
 //
-if((verifidi(c.login)==1) && (verifentryi(c.password)==1))
+if((verifidc(g,c.login)==1) && (verifentryi(c.password)==1))
      {   
 
 ajouteri11(c);
@@ -134,6 +137,9 @@ ajouteri11(c);
 
 
 ajouteri12(c);
+FILE* f =fopen("util.txt","w");
+               fprintf(f,"%s\n",c.login);
+              fclose(f);
 client= create_client ();
 gtk_widget_show (client);
 gtk_widget_destroy(aceuil);
@@ -147,25 +153,192 @@ else
 
 
 void
-on_button1s_clicked                    (GtkButton       *button,
+on_button1s_clicked                    (GtkWidget      *objet_graphique,
                                         gpointer         user_data)
+{ fact g;
+factvol t;
+res z;
+resvol p;
+FILE* f;
+vol r;
+int d;
+char e[50];
+GtkWidget *client ;
+GtkWidget *input1;
+GtkWidget *output1;
+GtkWidget *n;
+
+client=lookup_widget(objet_graphique,"client");
+input1=lookup_widget(client,"entry1s");
+output1=lookup_widget(client,"label1s");
+
+n=lookup_widget(client,"spinbutton1s");
+
+p.nbrp=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(n));
+
+strcpy(e,gtk_entry_get_text(GTK_ENTRY(input1)));
+
+p.id= iddd()+idddh()+iddde()-2;
+p.r=rechercheduvol(e);
+
+
+			f=fopen("util.txt","r");
+			fscanf(f,"%s",p.login);
+			fclose(f);
+
+d=disponiblevol(p.r,p.nbrp);
+
+if (d==1)
 {
+ajout_resvol_txt( p );
+t.k=p;
+t.pf=p.r.prixv*p.nbrp;
+strcpy(t.type,"vol");
+z.id=p.id;
+ strcpy(z.type,"vol");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+g.id=p.id;
+ strcpy(g.type,"vol");
+strcpy(g.login , p.login);
+g.pf=t.pf;
+ajout_fact_txt(g);
+ajout_res_txt(z);
+ajout_factvol_txt(t);
+gtk_label_set_text(GTK_LABEL(output1),"place disponible");}
+else 
+gtk_label_set_text(GTK_LABEL(output1),"place indisponible");
 
 }
 
 
 void
-on_button2s_clicked                    (GtkButton       *button,
+on_button2s_clicked                    (GtkWidget      *objet_graphique,
                                         gpointer         user_data)
-{
+{fact g;
+facthot t;
+res z;
+reshot h;
+FILE* f;
+hotel r;
+int d,k;
+char e[50];
+GtkWidget *client ;
+GtkWidget *input1;
+GtkWidget *output1,*output2;
+GtkWidget *n,*jj,*mm,*aa,*nnn;
+client=lookup_widget(objet_graphique,"client");
+input1=lookup_widget(client,"entry2s");
+output1=lookup_widget(client,"label2s");
+output2=lookup_widget(client,"label3s");
+n=lookup_widget(client,"spinbutton2s");
+jj=lookup_widget(client,"spinbutton10s");
+mm=lookup_widget(client,"spinbutton11s");
+aa=lookup_widget(client,"spinbutton12s");
+nnn=lookup_widget(client,"spinbutton13s");
+h.nbrp=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(n));
+h.j=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(jj));
+h.m=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(mm));
+h.a=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(aa));
+h.nn=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(nnn));
+strcpy(e,gtk_entry_get_text(GTK_ENTRY(input1)));
+h.id= iddd()+idddh()+iddde()-2;
+h.r=rechercheduhotel(e);
+			f=fopen("util.txt","r");
+			fscanf(f,"%s",h.login);
+			fclose(f);
+k=est_valide(h.j,h.m,h.a);
+d=disponiblehot(h.r,h.nbrp);
+if ((d==0)&&(k==0))
+{gtk_label_set_text(GTK_LABEL(output1),"date non valide");
+gtk_label_set_text(GTK_LABEL(output2),"place indisponible");}
+else if (k==0)
+{gtk_label_set_text(GTK_LABEL(output1),"date non valider");
+gtk_label_set_text(GTK_LABEL(output2),"place disponible");}
+else if (d==0)
+{gtk_label_set_text(GTK_LABEL(output1),"date valide");
+gtk_label_set_text(GTK_LABEL(output2),"place indisponible");}
+else 
+{gtk_label_set_text(GTK_LABEL(output1),"date valide");
+ajout_reshot_txt( h );
+t.k=h;
+t.pf=h.r.prix*h.nn*h.nbrp;
+strcpy(t.type,"hotel");
+z.id=h.id;
+ strcpy(z.type,"hotel");
+strcpy(z.login , h.login);
+z.nbrp=h.nbrp;
+g.id=h.id;
+ strcpy(g.type,"hotel");
+strcpy(g.login , h.login);
+g.pf=t.pf;
+ajout_fact_txt(g);
+ajout_res_txt(z);
+ajout_facthot_txt(t);
+gtk_label_set_text(GTK_LABEL(output2),"place disponible");}
+
+
+
 
 }
 
 
 void
-on_button3s_clicked                    (GtkButton       *button,
+on_button3s_clicked                    (GtkWidget      *objet_graphique,
                                         gpointer         user_data)
+{fact g;
+factexc a;
+res z;
+resexc t;
+FILE* f;
+excursion r;
+int d;
+char e[50];
+GtkWidget *client ;
+GtkWidget *input1;
+GtkWidget *output1;
+GtkWidget *n;
+client=lookup_widget(objet_graphique,"client");
+input1=lookup_widget(client,"entry3s");
+output1=lookup_widget(client,"label4s");
+n=lookup_widget(client,"spinbutton3s");
+
+t.nbrp=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(n));
+
+strcpy(e,gtk_entry_get_text(GTK_ENTRY(input1)));
+
+t.id= iddd()+idddh()+iddde()-2;
+t.r=rechercheduexc(e);
+
+
+			f=fopen("util.txt","r");
+			fscanf(f,"%s",t.login);
+			fclose(f);
+
+d=disponibleexc(t.r,t.nbrp);
+
+if (d==1)
 {
+ajout_resexc_txt( t );
+a.k=t;
+a.pf=t.r.prix*t.nbrp;
+strcpy(a.type,"excursion");
+z.id=t.id;
+ strcpy(z.type,"excursion");
+strcpy(z.login , t.login);
+z.nbrp=t.nbrp;
+g.id=t.id;
+ strcpy(g.type,"excursion");
+strcpy(g.login , t.login);
+g.pf=a.pf;
+ajout_fact_txt(g);
+ajout_res_txt(z);
+ajout_factexc_txt(a);
+gtk_label_set_text(GTK_LABEL(output1),"place disponible");}
+else 
+gtk_label_set_text(GTK_LABEL(output1),"place indisponible");
+
+
 
 }
 
@@ -174,19 +347,50 @@ void
 on_button4s_clicked                    (GtkButton       *button,
                                         gpointer         user_data)
 {
-
+GtkWidget *client;
+GtkWidget *notebook3;
+GtkWidget *treeview1s;
+client=lookup_widget(button,"client");
+notebook3=lookup_widget(client,"notebook3");
+treeview1s=lookup_widget(notebook3,"treeview1s");
+afficher_reservation(treeview1s);
 }
 
 
 void
-on_treeview1rec_row_activated          (GtkTreeView     *treeview,
+on_treeview1rec_row_activated          (GtkWidget     *objet_graphique,
                                         GtkTreePath     *path,
                                         GtkTreeViewColumn *column,
                                         gpointer         user_data)
+
 {
+GtkWidget *window2h,*notebook3;
+GtkWidget *treeview1rec;
+GtkWidget *idh,*txtrech;
 
+
+gchar *id, *user,*etat,*textrec,*txtrep,*date;
+ 
+
+notebook3=lookup_widget(objet_graphique,"notebook3");
+
+window2h=create_window2h();
+treeview1rec=lookup_widget(notebook3,"treeview1rec");
+
+txtrech=lookup_widget(window2h,"entry3hedi");
+
+idh=lookup_widget(window2h,"entry1hedi");
+
+GtkTreeIter iter;
+	GtkTreeModel *model=gtk_tree_view_get_model (GTK_TREE_VIEW(treeview1rec));
+	gtk_tree_model_get_iter(model,&iter,path);
+	gtk_tree_model_get (model,&iter,0,&id,1,&user,2,&etat,3,&textrec,4,&txtrep,5,&date,-1);
+	printf("%s %s %s %s %s %s",id,user,etat,textrec,txtrep,date);
+	gtk_entry_set_text(GTK_ENTRY (txtrech),_(textrec));
+	gtk_entry_set_text(GTK_ENTRY (idh),_(id));
+gtk_window_set_position(GTK_WINDOW(notebook3),GTK_WIN_POS_CENTER);
+gtk_widget_show(window2h);
 }
-
 
 void
 on_actualiser_clicked                 (GtkWidget      *objet,
@@ -223,9 +427,11 @@ FILE* k=fopen("util.txt","r");
                 fclose(k);
 n= calculenbrefich();
  lirefichrec(tab);
+char y[70];
+date_a (y);
 
 ajoutrec(tab,n,login,txt);
-ecrirerecfich( tab , n);
+ecrirerecfich( tab , n,y);
 
 }
 
@@ -490,8 +696,8 @@ strcpy(p.id,gtk_entry_get_text(GTK_ENTRY(input1)));
 strcpy(p.des,gtk_entry_get_text(GTK_ENTRY(input2)));
 strcpy(p.prog,gtk_entry_get_text(GTK_ENTRY(input3)));
 
-
-if(verifid(p.id)==0)
+excursion m;
+if(verifide(m,p.id)==0)
 { 
 
 gtk_label_set_text(GTK_LABEL(output10)," X ");}
@@ -503,7 +709,7 @@ if(verifentry(p.des)==0)
 else
 {gtk_label_set_text(GTK_LABEL(output11)," √ ");}
 //
-if((verifid(p.id)==1) && (verifentry(p.des)==1))
+if((verifide(m,p.id)==1) && (verifentry(p.des)==1))
      {   
 ajouter1(p);
 gtk_widget_hide(ajouexcu);}
@@ -620,7 +826,7 @@ void
 on_button12nn_clicked                  (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
-hotel h;
+hotel h,s;
 
 GtkWidget *input1;
 GtkWidget *input2;
@@ -648,7 +854,7 @@ np=lookup_widget(objet_graphique,"spinbutton2nn");
 
 
 h.e=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(ne));
-h.prixh=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(nprixh));
+h.prix=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(nprixh));
 h.p=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(np));
 
 
@@ -659,7 +865,7 @@ strcpy(h.nom,gtk_entry_get_text(GTK_ENTRY(input3)));
 
 strcpy(h.chambre,gtk_combo_box_get_active_text (GTK_COMBO_BOX(CHAMBRE)));
 
-if(verifid(h.id)==0)
+if(verifidh(s,h.id)==0)
 { 
 
 gtk_label_set_text(GTK_LABEL(output20)," X ");}
@@ -671,7 +877,7 @@ if(verifentry(h.lieu)==0)
 else
 {gtk_label_set_text(GTK_LABEL(output21)," √ ");}
 //
-if((verifid(h.id)==1) && (verifentry(h.lieu)==1))
+if((verifidh(s,h.id)==1) && (verifentry(h.lieu)==1))
      {   
 ajouter2(h);
 gtk_widget_hide(ajouhotel);}
@@ -710,7 +916,7 @@ p=lookup_widget(modifhotel,"spinbutton200n");
 	
 	strcpy(h.chambre,gtk_combo_box_get_active_text(GTK_COMBO_BOX(chambre)));
 	h.e = gtk_spin_button_get_value_as_int(e);
-	h.prixh = gtk_spin_button_get_value_as_int(prixh);
+	h.prix = gtk_spin_button_get_value_as_int(prixh);
         h.p = gtk_spin_button_get_value_as_int(p); 
 		
 	supprimer2(h);
@@ -759,7 +965,7 @@ p=lookup_widget(modifhotel,"spinbutton200n");
 	 
 	strcpy(h.chambre,gtk_combo_box_get_active_text(GTK_COMBO_BOX(chambre)));
 	h.e = gtk_spin_button_get_value_as_int(e);
-	h.prixh = gtk_spin_button_get_value_as_int(prixh);
+	h.prix = gtk_spin_button_get_value_as_int(prixh);
         h.p = gtk_spin_button_get_value_as_int(p); 
 		
 	modifier2(h);
@@ -816,9 +1022,9 @@ strcpy(v.arr,gtk_entry_get_text(GTK_ENTRY(input3)));
 strcpy(v.heure,gtk_entry_get_text(GTK_ENTRY(input4)));
 
 strcpy(v.type,gtk_combo_box_get_active_text (GTK_COMBO_BOX(TYPE)));
-
+vol k;
 /////////////////controle de saisie///////////
-if(verifid(v.id)==0)
+if(verifidv(k,v.id)==0)
 { 
 
 gtk_label_set_text(GTK_LABEL(output200)," X ");}
@@ -830,7 +1036,7 @@ if(verifentry(v.dep)==0)
 else
 {gtk_label_set_text(GTK_LABEL(output201)," √ ");}
 //
-if((verifid(v.id)==1) && (verifentry(v.dep)==1))
+if((verifidv(k,v.id)==1) && (verifentry(v.dep)==1))
      {   
 ajouter3(v);
 gtk_widget_hide(ajouvol);}
@@ -1005,7 +1211,7 @@ else if(strcmp("médecien",gtk_combo_box_get_active_text(GTK_COMBO_BOX(combobox2
 {c=2;}*/
 
 
-
+compt m;
 
 strcpy(c.login,gtk_entry_get_text(GTK_ENTRY(input1)));
 strcpy(c.password,gtk_entry_get_text(GTK_ENTRY(input2)));
@@ -1021,7 +1227,7 @@ else if(strcmp("agent",gtk_combo_box_get_active_text(GTK_COMBO_BOX(combobox1i)))
 {c.role=3;}
 
 
-if(verifidi(c.login)==0)
+if(verifidc(m,c.login)==0)
 { 
 
 gtk_label_set_text(GTK_LABEL(output140)," X ");}
@@ -1033,7 +1239,7 @@ if(verifentryi(c.password)==0)
 else
 {gtk_label_set_text(GTK_LABEL(output141)," √ ");}
 //
-if((verifidi(c.login)==1) && (verifentryi(c.password)==1))
+if((verifidc(m,c.login)==1) && (verifentryi(c.password)==1))
      {   
 
 ajouteri1(c);
@@ -1095,8 +1301,10 @@ strcpy(message,gtk_entry_get_text(GTK_ENTRY(input5)));
 
 
 FILE *f;
+char y[100];
+date_a(y);
 f=fopen("avis.txt","a+");
-fprintf(f,"%s %s %s %s %s \n",nom,prenom,cin,date,message);
+fprintf(f,"%s %s %s %s %s \n",nom,prenom,cin,y,message);
 fclose(f); 
 
 //gtk_widget_show(avis);
@@ -1157,13 +1365,13 @@ gtk_widget_hide(GTK_WIDGET(lookup_widget(button,"avis")));
 GtkWidget *input1;
 GtkWidget *input2;
 GtkWidget *input3;
-GtkWidget *input4;
+//GtkWidget *input4;
 GtkWidget *input5;
 
 char nom[300];
 char prenom[300];
 char cin[300];
-char date[300];
+//char date[300];
 char message[300];
 
 
@@ -1174,15 +1382,17 @@ input2=lookup_widget(button,"prenomay");
 strcpy(prenom,gtk_entry_get_text(GTK_ENTRY(input2)));
 input3=lookup_widget(button,"cinay");  
 strcpy(cin,gtk_entry_get_text(GTK_ENTRY(input3)));
-input4=lookup_widget(button,"dateay");
-strcpy(date,gtk_entry_get_text(GTK_ENTRY(input4)));
+//input4=lookup_widget(button,"dateay");
+//strcpy(date,gtk_entry_get_text(GTK_ENTRY(input4)));
 input5=lookup_widget(button,"messageay");
 strcpy(message,gtk_entry_get_text(GTK_ENTRY(input5)));
 
 
 FILE *f;
+char y[100];
+date_a(y);
 f=fopen("avis.txt","a+");
-fprintf(f,"%s %s %s %s %s \n",nom,prenom,cin,date,message);
+fprintf(f,"%s %s %s %s %s \n",nom,prenom,cin,y,message);
 fclose(f); 
 
 //gtk_widget_show(avis);
@@ -1249,5 +1459,736 @@ GtkWidget *input12;
 
     supprimer_avis(x);
 gtk_widget_hide(window2);
+}
+
+
+void
+on_buttonki_clicked                    (GtkWidget                *objet_graphique,
+                                        gpointer         user_data)
+{
+
+GtkWidget *admin;
+GtkWidget *notebook7;
+GtkWidget *notebook4;
+char x [20];
+compt c;
+GtkWidget *input12;
+
+ admin=lookup_widget(objet_graphique,"admin");
+notebook7=lookup_widget(admin,"notebook7");
+
+ 
+    
+    input12=lookup_widget(notebook7,"entryki"); 
+    strcpy(x,gtk_entry_get_text(GTK_ENTRY(input12)));
+
+    supprimerlog(x,c);
+   ///gtk_label_set_text(GTK_LABEL(label86),"***Suppression réussite***");
+}
+
+
+void
+on_button104s_clicked                  (GtkWidget                *button,
+                                        gpointer         user_data)
+{
+GtkWidget *modresh ;
+GtkWidget *client ;
+client=lookup_widget(button,"client");
+modresh=lookup_widget(button,"modresh");
+gtk_widget_hide (modresh);
+gtk_widget_show (client);
+}
+
+
+void
+on_button105s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data)
+{
+fact g;
+facthot t;
+res z;
+reshot p;
+hotel x;
+int k,d,i;
+
+GtkWidget *modresh ;
+GtkWidget *input1;
+GtkWidget *output1,*output2;
+GtkWidget *n,*nnn,*jj,*mm,*aa;
+
+modresh=lookup_widget(objet_graphique,"modresh");
+input1=lookup_widget(modresh,"spinbutton1001s");
+output1=lookup_widget(modresh,"label102s");
+output2=lookup_widget(modresh,"label101s");
+n=lookup_widget(modresh,"spinbutton101s");
+jj=lookup_widget(modresh,"spinbutton102s");
+mm=lookup_widget(modresh,"spinbutton103s");
+aa=lookup_widget(modresh,"spinbutton104s");
+nnn=lookup_widget(modresh,"spinbutton105s");
+
+i=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(input1));
+
+p= recherche_res_hot_id (i);
+x=rechercheduhotel(p.r.id);
+p.r=x;
+p.nbrp=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(n));
+p.j=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(jj));
+p.m=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(mm));
+p.a=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(aa));
+p.nn=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(nnn));
+
+k=est_valide(p.j,p.m,p.a);
+d=disponiblehot(p.r,p.nbrp);
+
+if ((d==0)&&(k==0))
+{gtk_label_set_text(GTK_LABEL(output1),"date non valide");
+gtk_label_set_text(GTK_LABEL(output2),"place indisponible");}
+else if (k==0)
+{gtk_label_set_text(GTK_LABEL(output1),"date non valider");
+gtk_label_set_text(GTK_LABEL(output2),"place disponible");}
+else if (d==0)
+{gtk_label_set_text(GTK_LABEL(output1),"date valide");
+gtk_label_set_text(GTK_LABEL(output2),"place indisponible");}
+else 
+{gtk_label_set_text(GTK_LABEL(output1),"date valide");
+modif_reshot( p);
+t.k=p;
+t.pf=p.r.prix*p.nn*p.nbrp;
+strcpy(t.type,"hotel");
+z.id=p.id;
+ strcpy(z.type,"hotel");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+g.id=p.id;
+ strcpy(g.type,"hotel");
+strcpy(g.login , p.login);
+g.pf=t.pf;
+modif_fact(g);
+modif_res(z);
+modif_facthot(t);
+gtk_label_set_text(GTK_LABEL(output2),"place disponible");}
+}
+
+
+void
+on_button106s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data)
+{
+fact g;
+facthot t;
+res z;
+reshot p;
+hotel x;
+int i;
+
+GtkWidget *modresh;
+GtkWidget *input1;
+GtkWidget *output1;
+
+
+modresh=lookup_widget(objet_graphique,"modresh");
+input1=lookup_widget(modresh,"spinbutton1001s");
+output1=lookup_widget(modresh,"label102s");
+
+
+
+i=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(input1));
+
+p= recherche_res_hot_id (i);
+x=rechercheduhotel(p.r.id);
+p.r=x;
+
+supprimer_reshot( p);
+t.k=p;
+t.pf=p.r.prix*p.nn*p.nbrp;
+strcpy(t.type,"hotel");
+z.id=p.id;
+ strcpy(z.type,"hotel");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+g.id=p.id;
+ strcpy(g.type,"hotel");
+strcpy(g.login , p.login);
+g.pf=t.pf;
+supp_fact(g);
+supprimer_res(z);
+supp_facthot(t);
+gtk_label_set_text(GTK_LABEL(output1),"suppression valider");
+}
+
+
+void
+on_button109s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data)
+{
+excursion x;
+fact g;
+factexc t;
+res z;
+resexc p;
+int i;
+GtkWidget *modrese ;
+GtkWidget *input1;
+GtkWidget *output1;
+
+
+modrese=lookup_widget(objet_graphique,"modrese");
+input1=lookup_widget(modrese,"spinbutton1002s");
+output1=lookup_widget(modrese,"label103s");
+
+
+i=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(input1));
+
+p= recherche_res_exc_id (i);
+x=rechercheduexc(p.r.id);
+p.r=x;
+
+
+
+
+
+
+
+supprimer_resexc( p);
+z.id=p.id;
+ strcpy(z.type,"excursion");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+supprimer_res(z);
+strcpy(t.type,"excursion");
+t.k=p;
+t.pf=p.r.prix*p.nbrp;
+strcpy(g.type,"excursion");
+g.id=p.id;
+strcpy(g.login , p.login);
+g.pf=t.pf;
+supp_factexc(t);
+supp_fact(g);
+gtk_label_set_text(GTK_LABEL(output1),"suppression valider");
+
+}
+
+
+void
+on_button108s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data)
+{
+excursion x;
+fact g;
+factexc t;
+res z;
+resexc p;
+int d,i;
+GtkWidget *modrese ;
+GtkWidget *input1;
+GtkWidget *output1;
+GtkWidget *n;
+
+modrese=lookup_widget(objet_graphique,"modrese");
+input1=lookup_widget(modrese,"spinbutton1002s");
+output1=lookup_widget(modrese,"label103s");
+n=lookup_widget(modrese,"spinbutton41");
+
+i=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(input1));
+
+p= recherche_res_exc_id (i);
+x=rechercheduexc(p.r.id);
+p.r=x;
+
+p.nbrp=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(n));
+
+
+d=disponibleexc(p.r,p.nbrp);
+
+if (d==1)
+{
+modif_resexc( p);
+z.id=p.id;
+ strcpy(z.type,"excursion");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+ modif_res(z);
+strcpy(t.type,"excursion");
+t.k=p;
+t.pf=p.r.prix*p.nbrp;
+strcpy(g.type,"excursion");
+g.id=p.id;
+strcpy(g.login , p.login);
+g.pf=t.pf;
+modif_factexc(t);
+modif_fact(g);
+gtk_label_set_text(GTK_LABEL(output1),"place disponible");}
+else 
+gtk_label_set_text(GTK_LABEL(output1),"place indisponible");
+ 
+}
+
+
+void
+on_button107s_clicked                  (GtkButton       *button,
+                                        gpointer         user_data)
+{
+GtkWidget *modrese ;
+GtkWidget *client ;
+client=lookup_widget(button,"client");
+modrese=lookup_widget(button,"modrese");
+gtk_widget_hide (modrese);
+gtk_widget_show (client);
+}
+
+
+
+void
+on_button1th_clicked                   (GtkButton       *button,
+                                        gpointer         user_data)
+{GtkWidget *client,*notebook3;
+GtkWidget *output1;
+GtkWidget *output2;
+client=lookup_widget(button,"client");
+notebook3=lookup_widget(client,"notebook3");
+output1=lookup_widget(client,"label1th");
+output2=lookup_widget(client,"label2th");
+gtk_label_set_text(GTK_LABEL(output1),"resevation confirmée");
+char hh[10];
+char d[10];
+fact z;
+int s;
+FILE* f;
+FILE* g;
+s=0;
+g=fopen("util.txt","r");
+			fscanf(g,"%s",d);
+			fclose(g);
+f = fopen("facture.txt", "r");
+
+ if(f==NULL)
+	{
+	 return;
+	}		
+ else 
+	{
+ 	 f = fopen("facture.txt", "a+");
+	 while(fscanf(f," %d %s %s %d\n",&z.id,z.type,z.login,&z.pf)!=EOF)
+		{if (strcmp(d,z.login)==0)
+		 s+=z.pf;
+		}
+	 fclose(f);
+	 
+	}
+sprintf(hh,"%d",s);
+gtk_label_set_text(GTK_LABEL(output2),hh);
+}
+
+
+void
+on_button2th_clicked                   (GtkButton       *button,
+                                        gpointer         user_data)
+{
+FILE *f=fopen("destroy.txt","w");
+FILE *g=fopen("facture.txt","r");
+fclose(f);
+fclose(g);
+remove("facture.txt");
+rename("destroy.txt","facture.txt");
+
+}
+
+
+void
+on_treeview1s_row_activated            (GtkWidget     *objet_graphique,
+                                        GtkTreePath     *path,
+                                        GtkTreeViewColumn *column,
+                                        gpointer         user_data)
+{
+ GtkWidget *modresv,*modrese,*modresh,*client,*notebook3;
+GtkWidget *treeview1s,*input1;
+gchar  *type[10] ,*login[20];
+gint *id,*nbrp,*idd;
+/*input1=lookup_widget(modresv,"entry1000s");*/
+client=lookup_widget(objet_graphique,"client");
+notebook3=lookup_widget(client,"notebook3");
+modresv=create_modresv();
+modresh=create_modresh();
+modrese=create_modrese();
+treeview1s=lookup_widget(notebook3,"treeview1s");
+
+
+GtkTreeIter iter;
+	GtkTreeModel *model=gtk_tree_view_get_model (GTK_TREE_VIEW(treeview1s));
+	gtk_tree_model_get_iter(model,&iter,path);
+	gtk_tree_model_get (model,&iter,0,&id,1,&type,2,&login,3,&nbrp,-1);
+if (strcmp(*type,"vol")==0)
+		  {gtk_window_set_position(GTK_WINDOW(client),GTK_WIN_POS_CENTER);
+				gtk_widget_show(modresv);
+/*gtk_entry_set_text(GTK_ENTRY (input1),_(id));*/
+}
+else if (strcmp(*type,"hotel")==0)
+		 {gtk_window_set_position(GTK_WINDOW(client),GTK_WIN_POS_CENTER);
+				gtk_widget_show(modresh);}
+else
+		{gtk_window_set_position(GTK_WINDOW(client),GTK_WIN_POS_CENTER);
+				gtk_widget_show (modrese);}
+
+
+}
+void
+on_button100s_clicked                  (GtkButton       *button,
+                                        gpointer         user_data)
+{GtkWidget *modresv ;
+GtkWidget *client ;
+client=lookup_widget(button,"client");
+modresv=lookup_widget(button,"modresv");
+gtk_widget_hide (modresv);
+gtk_widget_show (client);
+}
+
+
+void
+on_button101s_clicked                  (GtkWidget      *objet_graphique,
+                                        gpointer         user_data)
+{
+vol x;
+fact g;
+factvol t;
+res z;
+resvol p;
+int d,i;
+GtkWidget *modresv ;
+GtkWidget *input1;
+GtkWidget *output1;
+GtkWidget *n;
+
+modresv=lookup_widget(objet_graphique,"modresv");
+input1=lookup_widget(modresv,"spinbutton1000s");
+output1=lookup_widget(modresv,"label100s");
+n=lookup_widget(modresv,"spinbutton100s");
+
+i=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(input1));
+
+p= recherche_res_vol_id (i);
+x=rechercheduvol(p.r.id);
+p.r=x;
+
+p.nbrp=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(n));
+
+
+d=disponiblevol(p.r,p.nbrp);
+
+if (d==1)
+{
+modif_resvol( p);
+z.id=p.id;
+ strcpy(z.type,"vol");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+ modif_res(z);
+strcpy(t.type,"vol");
+t.k=p;
+t.pf=p.r.prixv*p.nbrp;
+strcpy(g.type,"vol");
+g.id=p.id;
+strcpy(g.login , p.login);
+g.pf=t.pf;
+modif_factvol(t);
+modif_fact(g);
+gtk_label_set_text(GTK_LABEL(output1),"place disponible");
+}
+else 
+gtk_label_set_text(GTK_LABEL(output1),"place indisponible");
+ 
+}
+
+
+
+
+void
+on_button102s_clicked                  (GtkWidget      *objet_graphique,
+                                        gpointer         user_data)
+{
+vol x;
+fact g;
+factvol t;
+res z;
+resvol p;
+int i;
+GtkWidget *modresv ;
+GtkWidget *input1;
+GtkWidget *output1;
+
+modresv=lookup_widget(objet_graphique,"modresv");
+input1=lookup_widget(modresv,"spinbutton1000s");
+output1=lookup_widget(modresv,"label100s");
+
+i=gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(input1));
+
+p= recherche_res_vol_id (i);
+x=rechercheduvol(p.r.id);
+p.r=x;
+
+
+supprimer_resvol( p);
+z.id=p.id;
+ strcpy(z.type,"vol");
+strcpy(z.login , p.login);
+z.nbrp=p.nbrp;
+supprimer_res(z);
+strcpy(t.type,"vol");
+t.k=p;
+t.pf=p.r.prixv*p.nbrp;
+strcpy(g.type,"vol");
+g.id=p.id;
+strcpy(g.login , p.login);
+g.pf=t.pf;
+supp_factvol(t);
+supp_fact(g);
+gtk_label_set_text(GTK_LABEL(output1),"supprission valider");
+}
+
+
+void
+on_button2hedi_clicked                 (GtkWidget      *objet,
+                                        gpointer         user_data)
+{int n,nb;
+char text[500];
+char *id;
+rec tab1[100];
+GtkWidget *window2h,*idh,*txtrech;
+
+window2h=lookup_widget(objet,"window2h") ;
+
+idh=lookup_widget(window2h,"entry1hedi");
+
+txtrech=lookup_widget(window2h,"entry3hedi");
+
+
+
+
+id=malloc(3);
+strcpy(id,gtk_entry_get_text(GTK_ENTRY(idh)));
+char y[70];
+date_a (y);
+n= calculenbrefich();
+ lirefichrec(tab1);
+strcpy(text,gtk_entry_get_text(GTK_ENTRY(txtrech)));
+nb=atoi(id);
+modifrecus(tab1, n,nb, text);
+ecrirerecfich( tab1 , n-1,y);
+gtk_widget_hide(window2h);
+
+}
+
+
+void
+on_button1hedi_clicked                 (GtkWidget     *objet,
+                                        gpointer         user_data)
+{
+
+int nb;
+char text[500];
+char *id;
+rec p;
+GtkWidget *window2h,*idh;
+window2h=lookup_widget(objet,"window2h") ;
+idh=lookup_widget(window2h,"entry1hedi");
+
+
+id=malloc(3);
+strcpy(id,gtk_entry_get_text(GTK_ENTRY(idh)));
+
+nb=atoi(id);
+
+supprimer(nb, p);
+gtk_widget_hide(window2h);
+}
+
+
+
+void
+on_hedi_clicked                        (GtkWidget     *objet,
+                                        gpointer         user_data)
+{int n,nb;
+char text[500];
+char *id;
+rec tab1[100];
+GtkWidget *windowhad,*idh,*txtreph;
+
+windowhad=lookup_widget(objet,"windowhad") ;
+
+idh=lookup_widget(windowhad,"hedi1");
+
+txtreph=lookup_widget(windowhad,"hedi2");
+
+
+
+
+id=malloc(3);
+strcpy(id,gtk_entry_get_text(GTK_ENTRY(idh)));
+char y[70];
+date_a (y);
+n= calculenbrefich();
+ lirefichrec(tab1);
+strcpy(text,gtk_entry_get_text(GTK_ENTRY(txtreph)));
+nb=atoi(id);
+modifrecag(tab1, n,nb, text);
+ecrirerecfich( tab1 , n-1,y);
+gtk_widget_hide(windowhad);
+
+}
+
+
+
+
+void
+on_treeview1h_row_activated            (GtkWidget     *objet_graphique,
+                                        GtkTreePath     *path,
+                                        GtkTreeViewColumn *column,
+                                        gpointer         user_data)
+{
+GtkWidget *windowhag,*notebook5;
+GtkWidget *treeview1h;
+GtkWidget *idh,*txtreph;
+
+
+gchar *id, *user,*etat,*textrec,*txtrep,*date;
+ 
+
+notebook5=lookup_widget(objet_graphique,"notebook5");
+
+windowhag=create_windowhag();
+treeview1h=lookup_widget(notebook5,"treeview1h");
+
+txtreph=lookup_widget(windowhag,"hedi002");
+
+idh=lookup_widget(windowhag,"hedi001");
+
+GtkTreeIter iter;
+	GtkTreeModel *model=gtk_tree_view_get_model (GTK_TREE_VIEW(treeview1h));
+	gtk_tree_model_get_iter(model,&iter,path);
+	gtk_tree_model_get (model,&iter,0,&id,1,&user,2,&etat,3,&textrec,4,&txtrep,5,&date,-1);
+	printf("%s %s %s %s %s %s",id,user,etat,textrec,txtrep,date);
+	gtk_entry_set_text(GTK_ENTRY (txtreph),_(txtrep));
+	gtk_entry_set_text(GTK_ENTRY (idh),_(id));
+gtk_window_set_position(GTK_WINDOW(notebook5),GTK_WIN_POS_CENTER);
+gtk_widget_show(windowhag);
+}
+
+
+void
+on_actualiser3_clicked                 (GtkWidget      *objet,
+                                        gpointer         user_data)
+{
+GtkWidget *admin;
+GtkWidget *notebook7;
+GtkWidget *treeview2h ;
+admin=lookup_widget(objet,"admin");
+notebook7=lookup_widget(admin,"notebook7");
+treeview2h=lookup_widget(notebook7,"treeview2h") ;
+
+afficher_recag(treeview2h);
+}
+
+
+void
+on_hedi003_clicked                     (GtkWidget      *objet,
+                                        gpointer         user_data)
+{
+int n,nb;
+char text[500];
+char *id;
+rec tab1[100];
+GtkWidget *windowhag,*idh,*txtreph;
+
+windowhag=lookup_widget(objet,"windowhag") ;
+
+idh=lookup_widget(windowhag,"hedi001");
+
+txtreph=lookup_widget(windowhag,"hedi002");
+
+
+
+
+id=malloc(3);
+strcpy(id,gtk_entry_get_text(GTK_ENTRY(idh)));
+char y[70];
+date_a (y);
+n= calculenbrefich();
+ lirefichrec(tab1);
+strcpy(text,gtk_entry_get_text(GTK_ENTRY(txtreph)));
+nb=atoi(id);
+modifrecag(tab1, n,nb, text);
+ecrirerecfich( tab1 , n-1,y);
+gtk_widget_hide(windowhag);
+
+}
+
+
+void
+on_treeview2h_row_activated            (GtkWidget     *objet_graphique,
+                                        GtkTreePath     *path,
+                                        GtkTreeViewColumn *column,
+                                        gpointer         user_data)
+{
+GtkWidget *windowhad,*notebook7;
+GtkWidget *treeview2h;
+GtkWidget *idh,*txtreph;
+
+
+gchar *id, *user,*etat,*textrec,*txtrep,*date;
+ 
+
+notebook7=lookup_widget(objet_graphique,"notebook7");
+
+windowhad=create_windowhad();
+treeview2h=lookup_widget(notebook7,"treeview2h");
+
+txtreph=lookup_widget(windowhad,"hedi2");
+
+idh=lookup_widget(windowhad,"hedi1");
+
+GtkTreeIter iter;
+	GtkTreeModel *model=gtk_tree_view_get_model (GTK_TREE_VIEW(treeview2h));
+	gtk_tree_model_get_iter(model,&iter,path);
+	gtk_tree_model_get (model,&iter,0,&id,1,&user,2,&etat,3,&textrec,4,&txtrep,5,&date,-1);
+	printf("%s %s %s %s %s %s",id,user,etat,textrec,txtrep,date);
+	gtk_entry_set_text(GTK_ENTRY (txtreph),_(txtrep));
+	gtk_entry_set_text(GTK_ENTRY (idh),_(id));
+gtk_window_set_position(GTK_WINDOW(notebook7),GTK_WIN_POS_CENTER);
+gtk_widget_show(windowhad);
+}
+
+
+void
+on_buttonihsen1_clicked                (GtkButton       *button,
+                                        gpointer         user_data)
+{
+GtkWidget *modcompt;
+modcompt=create_modcompt();
+gtk_widget_show (modcompt);
+}
+
+
+void
+on_buttonihsen2_clicked                (GtkWidget     *objet_graphique,
+                                        gpointer         user_data)
+{
+char a[300];char b[300];char c1[300];char d[300];
+GtkWidget *modcompt;
+modcompt=lookup_widget(objet_graphique,"modcompt");
+compt c;
+GtkWidget *input1;
+GtkWidget *input2;
+GtkWidget *input3;
+GtkWidget *input4;
+input1=lookup_widget(objet_graphique,"entryihsen1"); 
+    strcpy(a,gtk_entry_get_text(GTK_ENTRY(input1)));
+input2=lookup_widget(objet_graphique,"entryihsen2"); 
+    strcpy(b,gtk_entry_get_text(GTK_ENTRY(input2)));
+ input3=lookup_widget(objet_graphique,"entryihsen3"); 
+    strcpy(c1,gtk_entry_get_text(GTK_ENTRY(input3)));
+input4=lookup_widget(objet_graphique,"entryihsen4"); 
+    strcpy(d,gtk_entry_get_text(GTK_ENTRY(input4)));
+
+    modifierihsen(c,a,b,c1,d);
+gtk_widget_hide(modcompt);
 }
 

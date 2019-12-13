@@ -1,22 +1,8 @@
-0 ;ddffdff ;0 ;fddffd ;k
-1 ;ddffdff ;0 ;fddffd ;k
-2 ;ddffdff ;0 ;fddffd ;k
-3 ;ddffdff ;0 ;dcsdc ;k
-4 ;ddffdff ;0 ;lmlmlml ;k
-5 ;ddffdff ;0 ;mkdsmkqmkd ;k
-6 ;f ;0 ;mmmmmmm ;k
-7 ;k ;0 ;llll ;k
-8 ;f ;0 ;ssss ;k
-9 ;f ;0 ;ooooo ;k
-10 ;f ;0 ;ppp ;k
-11 ;k ;0 ;lll ;k
-12 ;f ;0 ;mmmm ;k
-13 ;f ;0 ;llll ;k
-14 ;f ;0 ;pppp ;k
-15 ;f ;0 ;hhhhhh-gggg-jjjj ;k
-16 ;f ;0 ;hhhhhh-gggg-jjjj ;k
-17 ;kh ;0 ;ppppp ;k
-18 ;f ;0 ;nbnbjknkn ;k
-19 ;f ;0 ;nbnbjknkn ;k
-20 ;f ;0 ;nbnbjknkn ;k
-21 ;f ;0 ;sssss ;k
+0 ;f ;0 ;iiiiiii ;k ; 13/12/2019
+1 ;f ;1 ;ffff ;lllll ; 13/12/2019
+2 ;f ;1 ;mmmm ;mmmm ; 13/12/2019
+3 ;f ;0 ;hhhh ;k ; 13/12/2019
+4 ;k ;1 ;hhhh ;eeeee ; 13/12/2019
+5 ;f ;0 ;hhhhhhhh. ;k ; 13/12/2019
+6 ;f ;0 ;fffffffffffff ;k ; 13/12/2019
+7 ;f ;0 ;fffffffffffff ;k ; 13/12/2019

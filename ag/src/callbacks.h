@@ -10,15 +10,15 @@ on_button50i_clicked                   (GtkWidget      *objet_graphique,
                                         gpointer         user_data);
 
 void
-on_button1s_clicked                    (GtkButton       *button,
+on_button1s_clicked                    (GtkWidget      *objet_graphique,
                                         gpointer         user_data);
 
 void
-on_button2s_clicked                    (GtkButton       *button,
+on_button2s_clicked                    (GtkWidget      *objet_graphique,
                                         gpointer         user_data);
 
 void
-on_button3s_clicked                    (GtkButton       *button,
+on_button3s_clicked                    (GtkWidget      *objet_graphique,
                                         gpointer         user_data);
 
 void
@@ -26,7 +26,7 @@ on_button4s_clicked                    (GtkButton       *button,
                                         gpointer         user_data);
 
 void
-on_treeview1rec_row_activated          (GtkTreeView     *treeview,
+on_treeview1rec_row_activated          (GtkWidget     *objet_graphique,
                                         GtkTreePath     *path,
                                         GtkTreeViewColumn *column,
                                         gpointer         user_data);
@@ -183,4 +183,102 @@ on_supp_clicked                        (GtkButton       *button,
 
 void
 on_valider_clicked                     (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_buttonki_clicked                    (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button104s_clicked                  (GtkWidget                *button,
+                                        gpointer         user_data);
+
+void
+on_button105s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button106s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button109s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button108s_clicked                  (GtkWidget                *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button107s_clicked                  (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_button1th_clicked                   (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_button2th_clicked                   (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_treeview1s_row_activated            (GtkWidget     *objet_graphique,
+                                        GtkTreePath     *path,
+                                        GtkTreeViewColumn *column,
+                                        gpointer         user_data);
+
+void
+on_button100s_clicked                  (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_button101s_clicked                  (GtkWidget      *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button102s_clicked                  (GtkWidget      *objet_graphique,
+                                        gpointer         user_data);
+
+void
+on_button2hedi_clicked                 (GtkWidget     *objet,
+                                        gpointer         user_data);
+
+void
+on_button1hedi_clicked                 (GtkWidget      *objet,
+                                        gpointer         user_data);
+
+void
+on_hedi_clicked                        (GtkWidget     *objet,
+                                        gpointer         user_data);
+
+
+
+void
+on_treeview1h_row_activated            (GtkWidget     *objet_graphique,
+                                        GtkTreePath     *path,
+                                        GtkTreeViewColumn *column,
+                                        gpointer         user_data);
+
+void
+on_actualiser3_clicked                 (GtkWidget      *objet,
+                                        gpointer         user_data);
+
+void
+on_hedi003_clicked                     (GtkWidget      *objet,
+                                        gpointer         user_data);
+
+void
+on_treeview2h_row_activated            (GtkWidget     *objet_graphique,
+                                        GtkTreePath     *path,
+                                        GtkTreeViewColumn *column,
+                                        gpointer         user_data);
+
+
+
+void
+on_buttonihsen1_clicked                (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_buttonihsen2_clicked                (GtkWidget     *objet_graphique,
                                         gpointer         user_data);

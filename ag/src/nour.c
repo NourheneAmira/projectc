@@ -145,6 +145,7 @@ fclose(f);
 fclose(tmp);
 rename("exc.tmp","exc.txt");
 } 
+////////////////hotel/////////////
 enum   
 {       
  
@@ -201,7 +202,7 @@ hotel h;
 	 gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
 
 	 renderer = gtk_cell_renderer_text_new ();
-	 column = gtk_tree_view_column_new_with_attributes("prixh", renderer, "text",PRIX2, NULL);
+	 column = gtk_tree_view_column_new_with_attributes("prix", renderer, "text",PRIX2, NULL);
 	 gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
 
  	 renderer = gtk_cell_renderer_text_new ();
@@ -222,10 +223,10 @@ hotel h;
  else 
 	{
  	 f = fopen("hot.txt", "a+");
-	 while(fscanf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,&h.e,h.chambre,&h.prixh,&h.p)!=EOF)
+	 while(fscanf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,&h.e,h.chambre,&h.prix,&h.p)!=EOF)
 		{
 		 gtk_list_store_append (store, &iter);
-		 gtk_list_store_set (store,&iter,ID2,h.id,LIEU,h.lieu,NOM,h.nom,E,h.e,CHAMBRE,h.chambre,PRIX2,h.prixh,PLACE,h.p,-1); 
+		 gtk_list_store_set (store,&iter,ID2,h.id,LIEU,h.lieu,NOM,h.nom,E,h.e,CHAMBRE,h.chambre,PRIX2,h.prix,PLACE,h.p,-1); 
 		}
 	 fclose(f);
 	 gtk_tree_view_set_model(GTK_TREE_VIEW(liste), GTK_TREE_MODEL(store));
@@ -239,7 +240,7 @@ FILE*f;
 
 f=fopen("hot.txt","a+");
 if (f!=NULL)
-{fprintf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prixh,h.p);
+{fprintf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prix,h.p);
 fclose(f);
 }
 }
@@ -251,8 +252,8 @@ int en,pn,prixhn;
 	f=fopen("hot.txt","r");
 	tmp=fopen("hot.tmp","a+");
 	while(fscanf(f,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,&en,chambren,&prixhn,&pn)!=EOF){
-		if(!strcmp(h.id,idn) ){fprintf(tmp,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prixh,h.p);}
-else fprintf(tmp,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,en,progn,prixhn,pn);
+		if(!strcmp(h.id,idn) ){fprintf(tmp,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,h.e,h.chambre,h.prix,h.p);}
+else fprintf(tmp,"%s %s %s %d %s %d %d\n",idn,lieun,nomn,en,chambren,prixhn,pn);
 }
 fclose(f);
 fclose(tmp);
@@ -435,10 +436,391 @@ rename("vol.tmp","vol.txt");
 		 return 1;
 	}
 }
+///////////////////////********/////////////////////////////////
 int verifentry(char a[])
 {
  if (strlen(a)==0)
 {return 0;}
 else return 1;
-
 }
+////////////////********************************////////////////////
+int verifidv (vol v,char log[])
+{
+FILE *f ;
+
+	f=fopen("vol.txt","r");
+   
+while(fscanf(f,"%s %s %s %d %d %d %s %s %d %d\n",v.id,v.dep,v.arr,&v.jv,&v.mv,&v.av,v.heure,v.type,&v.prixv,&v.pl)!=EOF){
+if(strcmp(log,v.id)==0)
+{fclose(f);
+return 0; }
+ }
+fclose(f);
+return 1;
+}
+/////////////
+int verifide (excursion e ,char log[])
+{
+FILE *f ;
+
+	f=fopen("exc.txt","r");
+   
+while(fscanf(f,"%s %s %s %d %d %d %s %s %d %d\n",e.id,e.des,&e.j,&e.m,&e.a,e.prog,&e.prix,e.p)!=EOF){
+if(strcmp(log,e.id)==0)
+{fclose(f);
+return 0; }
+ }
+fclose(f);
+return 1;
+}
+//////////////////////////////////////////////////
+int verifidh (hotel h,char log[])
+{
+FILE *f ;
+
+	f=fopen("hot.txt","r");
+   
+while(fscanf(f,"%s %s %s %d %s %d %d\n",h.id,h.lieu,h.nom,&h.e,h.chambre,&h.prix,&h.p)!=EOF){
+if(strcmp(log,h.id)==0)
+{fclose(f);
+return 0; }
+ }
+fclose(f);
+return 1;
+}
+////////////////////////commbobox////////////////
+void afficherkhkh(GtkWidget *liste,char combo[]){
+
+enum   
+{       
+ 
+ ID,
+ DES,
+ J,
+ M,
+ A,
+ PROG,
+ PRIX,
+ P,
+ COLUMNS
+};
+
+        GtkCellRenderer *renderer;
+        GtkTreeViewColumn *column;
+        GtkTreeIter    iter;
+        GtkListStore *store;
+
+        char id[30];
+        char des[10];
+        char prog[30];
+        int je,me,ae,pe;
+        int prixe;
+        store=NULL;
+
+        FILE *f;
+
+store=gtk_tree_view_get_model(liste);
+        if (store==NULL)
+        {
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("identifiant",
+renderer, "text",ID, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("description",
+renderer, "text",DES, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("jour", renderer,
+"text",J, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);        
+
+ renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("mois",
+renderer, "text",M, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("annee", renderer,
+"text",A, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("programme",
+renderer, "text",PROG, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("prix",
+renderer, "text",PRIX, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("nbre des places",
+renderer, "text",P, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+ 
+
+        }
+store=gtk_list_store_new (COLUMNS, G_TYPE_STRING, G_TYPE_STRING,G_TYPE_UINT,G_TYPE_UINT,G_TYPE_UINT, G_TYPE_STRING,G_TYPE_UINT,G_TYPE_UINT);
+
+
+        f = fopen("exc.txt", "r");
+
+if(f!=NULL)
+
+        { f = fopen("exc.txt", "a+");
+              while(fscanf(f,"%s %s %d %d %d %s %d %d\n",id,des,&je,&me,&ae,prog,&prixe,&pe)!=EOF)
+
+                {
+                        if(strcmp(des,combo)==0 )
+
+                                        {
+                                        gtk_list_store_append (store, &iter);
+                                        gtk_list_store_set (store, &iter, ID, id,
+DES,des,J,je,M,me,A,ae,PROG,prog,PRIX,prixe,P,pe,-1);
+                                                
+                                        }/*else if ((strcmp(ville,combo)==0 &&
+nbetoiles==nbetoile)||nbchambres==nbchambre||nbsuites==nbsuite)
+                                                {
+                                                gtk_list_store_append (store, &iter);
+                                        gtk_list_store_set (store, &iter, IDHOTEL, idhotel,
+NOMHOTEL,nomhotel, VILLE,ville, NBETOILE,nbetoile,
+                                                        PRIX,prix,NBCHAMBRE,nbchambre,NBSUITE,nbsuite, -1);
+                                                }*/
+                }
+                fclose(f);
+        gtk_tree_view_set_model (GTK_TREE_VIEW (liste),  GTK_TREE_MODEL (store));
+        g_object_unref (store);
+        }
+}
+/////////////////
+void afficherhh(GtkWidget *liste,char comboo[]){
+
+enum   
+{       
+ 
+ ID2,
+ LIEU,
+ NOM,
+ E,
+ CHAMBRE,
+ PRIX2,
+ PLACE,
+ COLUMNS
+};
+
+        GtkCellRenderer *renderer;
+        GtkTreeViewColumn *column;
+        GtkTreeIter    iter;
+        GtkListStore *store;
+
+        char id[30];
+        char lieu[10];
+        char nom[30];
+	char chambre[30];
+        int prix,e,p;
+       
+        store=NULL;
+
+        FILE *f;
+
+store=gtk_tree_view_get_model(liste);
+        if (store==NULL)
+        {
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("identifiant",
+renderer, "text",ID2, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("lieux",
+renderer, "text",LIEU, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("nom", renderer,
+"text",NOM, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);        
+
+ renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("nbre des etoiles",
+renderer, "text",E, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("type chambre", renderer,
+"text",CHAMBRE, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("prix",
+renderer, "text",PRIX2, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("nbre des places",
+renderer, "text",PLACE, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+
+         
+ 
+
+        }
+store=gtk_list_store_new (COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,G_TYPE_UINT, G_TYPE_STRING,G_TYPE_UINT,G_TYPE_UINT);
+
+
+        f = fopen("hot.txt", "r");
+
+if(f!=NULL)
+
+        { f = fopen("hot.txt", "a+");
+              while(fscanf(f,"%s %s %s %d %s %d %d\n",id,lieu,nom,&e,chambre,&prix,&p)!=EOF)
+
+                {
+                        if(strcmp(lieu,comboo)==0 )
+
+                                        {
+                                        gtk_list_store_append (store, &iter);
+                                        gtk_list_store_set (store, &iter, ID2, id,
+LIEU,lieu,NOM,nom,E,e,CHAMBRE,chambre,PRIX2,prix,PLACE,p,-1);
+                                                
+                                        }/*else if ((strcmp(ville,combo)==0 &&
+nbetoiles==nbetoile)||nbchambres==nbchambre||nbsuites==nbsuite)
+                                                {
+                                                gtk_list_store_append (store, &iter);
+                                        gtk_list_store_set (store, &iter, IDHOTEL, idhotel,
+NOMHOTEL,nomhotel, VILLE,ville, NBETOILE,nbetoile,
+                                                        PRIX,prix,NBCHAMBRE,nbchambre,NBSUITE,nbsuite, -1);
+                                                }*/
+                }
+                fclose(f);
+        gtk_tree_view_set_model (GTK_TREE_VIEW (liste),  GTK_TREE_MODEL (store));
+        g_object_unref (store);
+        }
+}
+///////////////************////////////filtre vol/////////////////
+void afficherhhh(GtkWidget *liste,char combo[]){
+
+enum   
+{       
+ 
+ ID3,
+ DEP,
+ ARR,
+ JV,
+ MV,
+ AV,
+ HEURE,
+ TYPEV,
+ PRIX3,
+ PLACEV,
+ COLUMS
+};
+
+        GtkCellRenderer *renderer;
+        GtkTreeViewColumn *column;
+        GtkTreeIter    iter;
+        GtkListStore *store;
+
+        char id[30];
+        char dep[10];
+        char arr[30];
+	char heure[30];
+        char type[30];
+        int jv,mv,av,pl;
+        int prixv;
+        store=NULL;
+
+        FILE *f;
+
+store=gtk_tree_view_get_model(liste);
+        if (store==NULL)
+        {
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("identifiant",
+renderer, "text",ID3, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("depart",
+renderer, "text",DEP, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("arrivee", renderer,
+"text",ARR, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);        
+
+ renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("jour",
+renderer, "text",JV, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("mois", renderer,
+"text",MV, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("annee",
+renderer, "text",AV, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+                renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("heure",
+renderer, "text",HEURE, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("type",
+renderer, "text",TYPEV, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+ 
+renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("prix",
+renderer, "text",PRIX3, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+renderer = gtk_cell_renderer_text_new ();
+                column = gtk_tree_view_column_new_with_attributes("place",
+renderer, "text",PLACEV, NULL);
+                gtk_tree_view_append_column (GTK_TREE_VIEW (liste), column);
+
+        }
+store=gtk_list_store_new (COLUMNS, G_TYPE_STRING, G_TYPE_STRING,G_TYPE_STRING,G_TYPE_UINT,G_TYPE_UINT,G_TYPE_UINT,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_UINT,G_TYPE_UINT);
+
+
+        f = fopen("vol.txt", "r");
+
+if(f!=NULL)
+
+        { f = fopen("vol.txt", "a+");
+              while(fscanf(f,"%s %s %s %d %d %d %s %s %d %d\n",id,dep,arr,&jv,&mv,&av,heure,type,&prixv,&pl)!=EOF)
+
+                {
+                        if(strcmp(dep,combo)==0 )
+
+                                        {
+                                        gtk_list_store_append (store, &iter);
+                                        gtk_list_store_set (store, &iter, ID3, id,
+DEP,dep,ARR,arr,JV,jv,MV,mv,AV,av,HEURE,heure,TYPEV,type,PRIX3,prixv,PLACEV,pl,-1);
+                                                
+                                        }/*else if ((strcmp(ville,combo)==0 &&
+nbetoiles==nbetoile)||nbchambres==nbchambre||nbsuites==nbsuite)
+                                                {
+                                                gtk_list_store_append (store, &iter);
+                                        gtk_list_store_set (store, &iter, IDHOTEL, idhotel,
+NOMHOTEL,nomhotel, VILLE,ville, NBETOILE,nbetoile,
+                                                        PRIX,prix,NBCHAMBRE,nbchambre,NBSUITE,nbsuite, -1);
+                                                }*/
+                }
+                fclose(f);
+        gtk_tree_view_set_model (GTK_TREE_VIEW (liste),  GTK_TREE_MODEL (store));
+        g_object_unref (store);
+        }
+}
+

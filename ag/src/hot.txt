@@ -1,1 +1,2 @@
-14725836 zzz 555555 1 simple 1 1
+34567891 hammamet royal 5 double 200 20
+45678912 sousse mouradi 5 simple 150 15

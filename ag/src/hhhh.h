@@ -14,10 +14,12 @@ char message[300];
 }admin;
 
 //void ajouter_avis(reservationrdv R);
+
 void afficher_avis(GtkWidget *liste);
 void supprimer_avis(char x[]);
-
 void modifier_avis(y,z);
+void date_a (char dt[]);
+
 //void afficher_ad(GtkWidget *liste);
 //void suprrimer_rg(char ID []);
 

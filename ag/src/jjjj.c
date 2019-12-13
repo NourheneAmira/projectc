@@ -4,6 +4,7 @@
 #include <string.h>
 #include "hhhh.h"
 #include <gtk/gtk.h>
+#include <time.h>
 /****************************************RDV******************************************************************************************/
 
 
@@ -79,14 +80,14 @@ if (store == NULL)
 
 store =gtk_list_store_new(COLUMNS,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING ,G_TYPE_STRING );
 
-
+char s[9]={"********"};
 
             f=fopen("avis.txt","r");
             if (f!=NULL){
 		while (fscanf(f,"%s %s %s %s %s",nom,prenom,cin,date,message)!=EOF) {
             gtk_list_store_append(store,&iter);
             gtk_list_store_set
-            (store,&iter,NOM,nom,PRENOM,prenom,CIN,cin,DATE,date,MESSAGE,message,-1);
+            (store,&iter,NOM,nom,PRENOM,prenom,CIN,s,DATE,date,MESSAGE,message,-1);
 		}
 		}
 		fclose(f);
@@ -176,6 +177,31 @@ char message[300];
       	rename("avis_tmp.txt","avis.txt");
 
 }
+
+void date_a (char dt[])
+{
+ int jour,mois,annee;
+ char j[10];
+ char m[10];
+ char a[10];
+ char sl[5]="/";
+ time_t now;
+ time(&now);
+ struct tm *local=localtime(&now);
+ jour = local->tm_mday;
+ mois = local->tm_mon+1;
+ annee= local->tm_year+1900;
+ sprintf(j,"%d",jour);
+ sprintf(m,"%d",mois);
+ sprintf(a,"%d",annee);
+ strcpy(dt," ");
+ strcat(dt,j);
+ strcat(dt,sl);
+ strcat(dt,m);
+ strcat(dt,sl);
+ strcat(dt,a);
+}
+
 
 
 
